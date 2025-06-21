@@ -10,8 +10,7 @@ function TaskForm({ addTask }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (taskTitle.trim()) {
-      const imageUrl = image ? URL.createObjectURL(image) : null;
-      addTask(taskTitle, dueDate, description, type, imageUrl);
+      addTask(taskTitle, dueDate, description, type, image);
       setTaskTitle('');
       setDueDate('');
       setDescription("");

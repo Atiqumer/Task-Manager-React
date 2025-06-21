@@ -2,14 +2,19 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
+import { saveTask, getAllTasks, deleteTask as deleteFromDB } from './utils/db';
 
 function App() {
   const [filter, setFilter] = useState("all");
   const [tasks, setTasks] = useState([]);
   useEffect(() => {
-    sessionStorage.setItem("tasks", JSON.stringify(tasks));}, [tasks]); 
-  useEffect(() => {
-    const saved = JSON.parse(sessionStorage.getItem("tasks")) || [];setTasks(saved);}, []);
+  const fetchTasks = async () => {
+    const savedTasks = await getAllTasks();
+    setTasks(savedTasks || []);
+  };
+  fetchTasks();
+}, []);
+
 
   const getFilteredTasks = () => {
   if (filter === "active") return tasks.filter((t) => !t.completed);
@@ -18,21 +23,37 @@ function App() {
   return tasks;
 };
 
-  const addTask = (title, dueDate,description,type,imageUrl) => {
-    const newTask = {
-      id: Date.now(),
-      title,
-      dueDate,
-      description,
-      type,
-      imageUrl,
-      completed: false,
-    };
-    setTasks([...tasks, newTask]);
+  const toBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+  });
+};
+
+
+const addTask = async (title, dueDate, description, type, imageFile) => {
+  const imageBase64 = imageFile ? await toBase64(imageFile) : null;
+
+  const newTask = {
+    id: Date.now(),
+    title,
+    dueDate,
+    description,
+    type,
+    imageUrl: imageBase64,
+    completed: false,
   };
 
-  const deleteTask = (id) => {
+  setTasks((prevTasks) => [...prevTasks, newTask]);
+  await saveTask(newTask); // IndexedDB save
+};
+
+
+  const deleteTask = async (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
+    await deleteFromDB(id);
   };
 
   const toggleComplete = (id) => {
@@ -42,6 +63,8 @@ function App() {
       )
     );
   };
+
+
 
   const editTask = (id, newTitle) => {
     setTasks(
