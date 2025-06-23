@@ -74,7 +74,7 @@ function TaskItem({ task, onComplete, onDelete, onEdit, onView }) {
             <img src={editedTask.imageUrl} alt="Task" className="w-24 h-24 object-cover mt-2" />
           )}
           <div className="flex gap-2">
-            <button onClick={handleSave} className="bg-green-600 text-white px-3 py-1 rounded">
+            <button onClick={handleSave} className="bg-blue-600 text-white px-3 py-1 rounded">
               Save
             </button>
             <button onClick={() => setIsEditing(false)} className="bg-gray-400 text-white px-3 py-1 rounded">
