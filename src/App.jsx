@@ -67,13 +67,15 @@ const addTask = async (title, dueDate, description, type, imageFile) => {
     );
   };
 
-  const editTask = (id, newTitle) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, ...updatedTask } : task
-      )
-    );
-  };
+const editTask = async (updatedTask) => {
+  setTasks(
+    tasks.map((task) =>
+      task.id === updatedTask.id ? updatedTask : task
+    )
+  );
+  await saveTask(updatedTask);
+};
+
 
   return (
     <div className="app-container min-h-screen bg-gray-200 p-8">
