@@ -1,6 +1,6 @@
 import TaskItem from './TaskItem';
 
-function TaskList({ tasks, onComplete, onDelete, onEdit }) {
+function TaskList({ tasks, onComplete, onDelete, onEdit, onView }) {
   return (
     <div className="space-y-3 mt-4">
       {tasks.length === 0 ? (
@@ -13,6 +13,7 @@ function TaskList({ tasks, onComplete, onDelete, onEdit }) {
             onComplete={onComplete}
             onDelete={onDelete}
             onEdit={onEdit}
+            onView={onView}
           />
         ))
       )}

@@ -2,11 +2,17 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
+import TaskModal from './components/TaskModal';
 import { saveTask, getAllTasks, deleteTask as deleteFromDB } from './utils/db';
 
 function App() {
   const [filter, setFilter] = useState("all");
+  const [selectedTask, setSelectedTask] = useState(null);
   const [tasks, setTasks] = useState([]);
+  const handleViewTask = (task) => {
+  setSelectedTask(task);
+};
+
   useEffect(() => {
   const fetchTasks = async () => {
     const savedTasks = await getAllTasks();
@@ -14,7 +20,6 @@ function App() {
   };
   fetchTasks();
 }, []);
-
 
   const getFilteredTasks = () => {
   if (filter === "active") return tasks.filter((t) => !t.completed);
@@ -32,7 +37,6 @@ function App() {
   });
 };
 
-
 const addTask = async (title, dueDate, description, type, imageFile) => {
   const imageBase64 = imageFile ? await toBase64(imageFile) : null;
 
@@ -47,9 +51,8 @@ const addTask = async (title, dueDate, description, type, imageFile) => {
   };
 
   setTasks((prevTasks) => [...prevTasks, newTask]);
-  await saveTask(newTask); // IndexedDB save
+  await saveTask(newTask); 
 };
-
 
   const deleteTask = async (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
@@ -64,12 +67,10 @@ const addTask = async (title, dueDate, description, type, imageFile) => {
     );
   };
 
-
-
   const editTask = (id, newTitle) => {
     setTasks(
       tasks.map((task) =>
-        task.id === id ? { ...task, title: newTitle } : task
+        task.id === id ? { ...task, ...updatedTask } : task
       )
     );
   };
@@ -89,7 +90,12 @@ const addTask = async (title, dueDate, description, type, imageFile) => {
         onComplete={toggleComplete}
         onDelete={deleteTask}
         onEdit={editTask}
+        onView={setSelectedTask}
       />
+    {selectedTask && (
+  <TaskModal task={selectedTask} onClose={() => setSelectedTask(null)} />
+)}
+
     </div>
   );
 }
