@@ -9,7 +9,7 @@ function TaskForm({ addTask }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const titleRegex = /^[a-zA-Z0-9]+$/;
+    const titleRegex = /^[a-zA-Z0-9 ]*$/;
     if (!taskTitle.trim() || !dueDate.trim() || !description.trim() || !type.trim()) {
     alert("Please fill in all required fields.");
     return;
