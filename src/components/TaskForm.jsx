@@ -12,15 +12,15 @@ function TaskForm({ addTask }) {
     const titleRegex = /^[a-zA-Z0-9 ]*$/;
 
     if (!taskTitle.trim()) {
-    alert("Please fill in Title required fields.");
+    alert("Please fill in Title field.");
     return;
     }
     if (!dueDate.trim()) {
-    alert("Please fill in Date required fields.");
+    alert("Please fill in Date field.");
     return;
     }
     if (!description.trim()) {
-    alert("Please fill in Description required fields.");
+    alert("Please fill in Description field.");
     return;
     }
     if (!titleRegex.test(taskTitle)) {
