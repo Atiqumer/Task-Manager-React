@@ -10,10 +10,19 @@ function TaskForm({ addTask }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const titleRegex = /^[a-zA-Z0-9 ]*$/;
-    if (!taskTitle.trim() || !dueDate.trim() || !description.trim() || !type.trim()) {
-    alert("Please fill in all required fields.");
+
+    if (!taskTitle.trim()) {
+    alert("Please fill in Title required fields.");
     return;
-  }
+    }
+    if (!dueDate.trim()) {
+    alert("Please fill in Date required fields.");
+    return;
+    }
+    if (!description.trim()) {
+    alert("Please fill in Description required fields.");
+    return;
+    }
     if (!titleRegex.test(taskTitle)) {
     alert("Task title must not contain special characters. Only letters, numbers are allowed.");
     return;
@@ -61,9 +70,9 @@ return (
       <select
         value={type}
         onChange={(e) => setType(e.target.value)}
-        className="w-full border border-gray-300 rounded px-4 py-2"
+        className="w-full border rounded px-2 py-2"
       >
-        <option value="Normal">Normal</option>
+        <option value="Normal" >Normal</option>
         <option value="Urgent">Urgent</option>
       </select>
 
@@ -71,7 +80,7 @@ return (
         type="file"
         accept="image/*"
         onChange={(e) => setImage(e.target.files[0])}
-        className="w-full file:border file:border-gray-300 file:rounded file:px-4 file:py-2 file:bg-white file:text-gray-700"
+        className="w-full file:border file:border-grey-300 file:rounded file:px-4 file:py-2 file:bg-white file:text-gray-700"
       />
 
       <button

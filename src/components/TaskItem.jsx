@@ -117,7 +117,8 @@ function TaskItem({ task, onComplete, onDelete, onEdit, onView }) {
             <button onClick={() => setIsEditing(true)} className="text-sm bg-yellow-500 hover:bg-gray-700 hover:text-white text-white px-2 py-1 rounded">
               Edit
             </button>
-            <button onClick={() => onDelete(task.id)} className=" text-sm bg-red-500 hover:bg-gray-700 hover:text-white text-white px-2 py-1 rounded">
+            <button onClick={() => {if (window.confirm("Are you sure you want to delete this task?")) {
+      onDelete(task.id);}}} className=" text-sm bg-red-500 hover:bg-gray-700 hover:text-white text-white px-2 py-1 rounded">
               Delete
             </button>
           </div>
