@@ -92,7 +92,6 @@ return (
     </form>
   </div>
 );
-
 }
 
 export default TaskForm;

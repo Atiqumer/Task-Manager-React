@@ -100,5 +100,4 @@ const editTask = async (updatedTask) => {
     </div>
   );
 }
-
 export default App;
